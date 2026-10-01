@@ -1,0 +1,23 @@
+{
+  "mu": 0.0,
+  "n_pos": 401,
+  "n_neg": 0,
+  "undetermined": null,
+  "ldlt_seconds": 305.25,
+  "pivot_digest_sha256": "be95d588997df5a49bf991d23a149cee4ca00da7dbaddc2073d8a0364444c392",
+  "pivot_count": 401,
+  "stage": "g2_baseline",
+  "c": 100,
+  "N": 200,
+  "dimension": 401,
+  "prec_bits": 9000,
+  "build_seconds": 3246.2,
+  "date": "2026-10-01T15:37:53",
+  "python_version": "3.14.4",
+  "script": "sturm_count.py",
+  "manuscript_expected": {
+    "n_pos": 401,
+    "n_neg": 0
+  },
+  "manuscript_match": true
+}

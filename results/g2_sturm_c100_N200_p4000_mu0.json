@@ -1,0 +1,18 @@
+{
+  "mu": 0.0,
+  "n_pos": 303,
+  "n_neg": 0,
+  "undetermined": 303,
+  "ldlt_seconds": 91.86,
+  "pivot_digest_sha256": "b1507e8d0a87acc15894848f2b27498549fbb075fe72861b38636bc43b8c6ba9",
+  "pivot_count": 303,
+  "stage": "g2_baseline",
+  "c": 100,
+  "N": 200,
+  "dimension": 401,
+  "prec_bits": 4000,
+  "build_seconds": 1074.0,
+  "date": "2026-10-01T14:06:11",
+  "python_version": "3.14.4",
+  "script": "sturm_count.py"
+}

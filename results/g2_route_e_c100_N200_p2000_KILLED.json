@@ -1,0 +1,24 @@
+{
+  "stage": "g2_route_e",
+  "status": "KILLED_NO_RESULT",
+  "written_by": "operator record after Stop-Process (the script itself never reached its JSON writer; this file is NOT script output)",
+  "reason": "arb_mat.eig at DIM=401/prec=2000 ran 7040 s without returning while holding 1 of only 2 physical cores during the OMEGA-CORE sweep; resource rule (OMEGA not starved) took precedence. Route S had already certified the same matrix (6000/9000 bits, manuscript MATCH), so the decision-relevant answer for route E at this size is 'did not complete within resource budget'.",
+  "c": 100,
+  "N": 200,
+  "prec_bits": 2000,
+  "dimension": 401,
+  "build_seconds": 338.9,
+  "build_completed_at": "2026-10-01T13:42:19",
+  "eig_started_at": "2026-10-01T13:42:19",
+  "first_algorithm": "rump",
+  "eig_wall_seconds_at_kill": 7040,
+  "process_cpu_seconds_at_kill": 7028,
+  "killed_at": "2026-10-01T15:39:39",
+  "priority_at_kill": "BelowNormal",
+  "precedent": "OMEGA v1: arb_mat.eig 801x801 @2851 bits killed after 94 min without finishing (recorded in gw_omega_core_v2.py history); gw_arb_measured.py: rump and vdhoeven_mourrain NOT ISOLATED at prec 1024/4096 on the (100,40) matrix.",
+  "verdict": "route E not usable at this size within our resource budget -> route S (certified Sturm counts) is the selected path. Retest of route E on an idle machine is queued with the campaign.",
+  "same_matrix_certified_by_route_s": {
+    "prec_6000": {"ldlt_seconds": 184.4, "n_pos": 401, "n_neg": 0, "manuscript_match": true},
+    "prec_9000": {"ldlt_seconds": 305.2, "n_pos": 401, "n_neg": 0, "manuscript_match": true}
+  }
+}

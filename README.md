@@ -18,8 +18,37 @@ critical line").  Background and construction findings are persisted in
 | `sm_dual.py` selftest (W02 rank-2) | PASS — sv2/sv0 = 3.7e-17 |
 | `sturm_count.py --selftest` | PASS — part (a) source Arb-vs-mpmath 1e-60; part (b) 10/10 checkable certified counts match float64 engine (9 skipped as ambiguous, vetted) |
 | `bracket_driver.py --selftest` | PASS — coverage 17/17, 8 individual + 1 cluster (k=9), 0 conflicts, JSONL resume verified |
-| G2 baseline (DIM=401, prec 2000) | see `results/g2_*.json` — numbers quoted in the repo commit message |
+| G2 baseline (DIM=401) | **MEASURED — see table below**; precision ladder found the minimum certifiable precision, manuscript certificate (401, 0) reproduced at TWO precisions |
 | Full campaign (c=100, N=200) | **QUEUED** — runs only after OMEGA-CORE is released + `gw_verify_results.py` (brain #1001702), single-thread, BelowNormal |
+
+### G2 measured baseline (2026-10-01, single thread, BelowNormal, during OMEGA sweep)
+
+Route S precision ladder at `c=100, N=200, mu=0` (one fresh build per rung; artifacts in `results/g2_sturm_*.json`):
+
+| prec (bits) | build (s) | certified LDL^T count | verdict |
+|---|---|---|---|
+| 2000 | 339.5 | undetermined at pivot 186 | fail-closed, too tight |
+| 4000 | 1074.0 | undetermined at pivot 303 | fail-closed, too tight |
+| **6000** | **1764.9** | **184.4 s -> n_pos=401, n_neg=0** | **CERTIFIED, manuscript MATCH** (minimum) |
+| 9000 | 3246.2 | 305.2 s -> n_pos=401, n_neg=0 | CERTIFIED, manuscript MATCH (cross-check) |
+
+- **Independent reproduction**: our toolchain re-derives the published finite
+  certificate `c=100, N=200 -> (n_pos=401, n_neg=0)` at both 6000 and 9000 bits.
+- **Route E** (`arb_mat.eig`, same matrix, prec 2000): build OK, eig did **not
+  return after 7040 s** -> killed under the OMEGA resource rule; honest record
+  in `results/g2_route_e_c100_N200_p2000_KILLED.json`. Retest on an idle
+  machine is queued; route S is the selected path meanwhile.
+- **Campaign cost model (measured, not estimated)**: one build (1764.9 s,
+  reused across shifts) + ~184 s per certified count at 6000 bits
+  -> 401 shifts ≈ **20-21 h single-thread**, checkpointed JSONL, resumable.
+  Escalation to 9000 bits for any shift whose pivot comes back undetermined
+  (measured ~305 s/count if needed).
+- **Contention note (measured)**: overlapping this baseline with OMEGA-CORE
+  cost OMEGA ~15% cumulative (per-pivot rate 7.9e-5 vs 5.1e-5 s/unit during
+  overlap; two of the benchmark processes were observed at AboveNormal
+  despite an internal BelowNormal request and were force-corrected). The
+  campaign itself must run on an idle machine — which is exactly why it is
+  queued behind OMEGA.
 
 ## Two routes, two engines
 
