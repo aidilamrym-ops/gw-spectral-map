@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install numpy mpmath
+      - name: Compile all scripts
+        run: python -m py_compile sm_dual.py sturm_count.py bracket_driver.py arb_eig_route.py test_endpoint_convention.py verify_manifest.py
+      - name: sm_dual selftest (standalone)
+        run: python sm_dual.py
+      - name: Manifest check
+        run: python verify_manifest.py
+      - name: Endpoint convention (needs ../GUINAND_WEIL tree, else loud SKIP)
+        run: python test_endpoint_convention.py
+      - name: Sibling-tree tests (local only, documented)
+        run: |
+          if [ ! -f ../GUINAND_WEIL/source_arb_ldlt_certify.py ]; then
+            echo "SKIP sturm_count/bracket_driver selftests: ../GUINAND_WEIL tree absent (run locally where it exists)"
+          else
+            python sturm_count.py --selftest
+            python bracket_driver.py --selftest --out /tmp/brackets_ci.jsonl
+          fi

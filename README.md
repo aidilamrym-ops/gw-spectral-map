@@ -18,6 +18,7 @@ critical line").  Background and construction findings are persisted in
 | `sm_dual.py` selftest (W02 rank-2) | PASS — sv2/sv0 = 3.7e-17 |
 | `sturm_count.py --selftest` | PASS — part (a) source Arb-vs-mpmath 1e-60; part (b) 10/10 checkable certified counts match float64 engine (9 skipped as ambiguous, vetted) |
 | `bracket_driver.py --selftest` | PASS — coverage 17/17, 8 individual + 1 cluster (k=9), 0 conflicts, JSONL resume verified |
+| ambig sensitivity (measured 2026-10-15) | coverage 17/17 + 0 conflicts at ambig_rel 1e-7/1e-6/1e-5; only the individual/cluster split moves (9/1, 8/1, 7/1) |
 | G2 baseline (DIM=401) | **MEASURED — see table below**; precision ladder found the minimum certifiable precision, manuscript certificate (401, 0) reproduced at TWO precisions |
 | Full campaign (c=100, N=200) | **QUEUED** — runs only after OMEGA-CORE is released + `gw_verify_results.py` (brain #1001702), single-thread, BelowNormal |
 
@@ -114,6 +115,7 @@ limitation (raise `--prec`, never nudge).
    its current honest verdict is **S1 = INCONCLUSIVE, S2 = INCONSISTENT WITH
    MONTGOMERY at this resolution**, with the binding constraint measured to
    be the unfolding bandwidth (power >= 90% only at `sigma_u = 1.0`).
+Provenance (2026-10-15 audit): no S1/S2 computation exists in THIS repo (file list verified); the verdict machinery lives in guinand-weil-rigorous-numerics/gw_montgomery.py:562 (GUE-vs-Poisson verdict window) with a GUE-fixture negative control at gw_mont_pipeline_check.py:195,256. The binding re-run on the certified spectrum is QUEUED, not done -- until then these verdicts are pre-bracket estimates, stated as such.
 3. **No RH / Weil-positivity / prime-counting claims.**  Each run certifies
    one finite instance; a negative pivot would be a falsification *signal*
    requiring analysis (off-line zero vs construction artefact), never an
@@ -138,6 +140,9 @@ limitation (raise `--prec`, never nudge).
 | `bracket_driver.py` | level-0 campaign: vetted shifts -> counts -> individual/cluster brackets, JSONL resume |
 | `NOTES.md` | Montgomery–Odlyzko background + Q_Nc construction findings + design log |
 | `results/` | selftest evidence, G2 JSONs, bracket JSONLs/checkpoints |
+| `results/MANIFEST.sha256` | hash + tally manifest of results/ (regenerate after any rerun: `python verify_manifest.py --update`) |
+| `test_endpoint_convention.py` | exact-hit shift -> UNDETERMINED (fail-closed); strict-below counts exact (needs ../GUINAND_WEIL tree, else loud SKIP) |
+| `verify_manifest.py` | manifest checker (stdlib only): hashes + tally + JSON validity; `--update` regenerates |
 
 Provenance: matrix construction and interval LDL^T come from
 `../GUINAND_WEIL/source_arb_ldlt_certify.py` (imported read-only), the same

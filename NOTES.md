@@ -112,6 +112,48 @@ Source of truth: `../GUINAND_WEIL/source_arb_ldlt_certify.py` (read
 
 ---
 
+## D.  2026-10-15 external audit: measured fixes (B-SM1..SM4)
+
+### D1. ambig sensitivity (B-SM2 closed by measurement)
+
+Selftest pipeline rerun at ambig_rel 1e-7 / 1e-6 / 1e-5 (default):
+
+| ambig_rel | coverage | individual | clusters | conflicts |
+|---|---|---|---|---|
+| 1e-7 | 17/17 | 9 | 1 | 0 |
+| 1e-6 | 17/17 | 8 | 1 | 0 |
+| 1e-5 | 17/17 | 7 | 1 | 0 |
+
+The certificate (coverage + zero conflicts) is invariant; only the
+individual/cluster granularity moves, in the expected direction
+(tighter margin -> fewer TOO_TIGHT -> more individuals). The 1e-6
+default is therefore not load-bearing for correctness, only for
+granularity. Artifacts: OUT-lo/hi JSONLs (kept out of the repo).
+
+### D2. endpoint convention (B-SM3 closed by test)
+
+N(mu) = n_neg counts eigenvalues STRICTLY below mu. Measured on
+diag(1, 2) via `test_endpoint_convention.py` (all PASS): mu exactly
+on an eigenvalue -> UNDETERMINED (pivot index reported, counts not
+used); mu = eigenvalue +- 1e-6 -> exact strict-below counts
+(0 below 1, 1 below 2... i.e. 0/1/2 across the three gaps). An
+eigenvalue exactly on a shift is therefore never assigned to
+either side -- the convention is enforced by fail-closed, not by
+documentation alone.
+
+### D3. results/ manifest (B-SM4 closed)
+
+`results/MANIFEST.sha256` (hash + TOTAL FILES tally, sibling-OMEGA
+format) + `verify_manifest.py` (stdlib-only checker, `--update`
+regenerates). Rule, same as elsewhere: any legitimate rerun must
+regenerate the manifest, or verification fails loudly.
+
+### D4. verdict provenance (B-SM1 closed by pointer)
+
+The S1/S2 verdict lines in README/NOTES now point at the machinery
+that produces them (OMEGA-side files + lines above) instead of
+standing as bare statements in a repo that contains no S1/S2 code.
+
 ## C.  Tier-3 design + blind spots (incl. ones found during implementation)
 
 ### Design recap
