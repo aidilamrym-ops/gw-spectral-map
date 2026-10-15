@@ -38,11 +38,19 @@ def scope():
 
 
 def digest(path):
-    h = hashlib.sha256()
+    """sha256 + size of the LF-NORMALIZED content.
+
+    Line-ending trap this defeats (caught by CI, not by eye): git
+    checks out CRLF working copies on Windows and LF on Linux, so a
+    manifest over raw bytes goes stale on every platform change even
+    though every file is byte-identical in the repository. Hashing
+    the normalized form makes the manifest checkout-style immune.
+    """
     with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(65536), b""):
-            h.update(chunk)
-    return h.hexdigest()
+        data = f.read().replace(b"\r\n", b"\n")
+    h = hashlib.sha256()
+    h.update(data)
+    return h.hexdigest(), len(data)
 
 
 def render(rows):
@@ -78,7 +86,8 @@ def main():
     live = []
     for n in names:
         p = os.path.join(RESULTS, n)
-        live.append((n, digest(p), os.path.getsize(p)))
+        h, s = digest(p)
+        live.append((n, h, s))
         try:
             with open(p, "r", encoding="utf-8") as f:
                 json.load(f) if p.endswith(".json") else None
