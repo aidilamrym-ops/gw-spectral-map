@@ -1,0 +1,45 @@
+MIT License
+
+Copyright (c) 2026 Muhammad Aidil Amry (ORCID 0009-0002-9718-9710)
+Independent Researcher, South Sulawesi, Indonesia
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------------------------------------------------------------------------
+SCOPE: this repository is software plus its own machine-generated results,
+and this MIT licence covers ALL of it, namely
+
+    *.py                             the certified-spectral-map driver,
+                                     bracket solver, Sturm counter,
+                                     eigenvalue routes and their tests
+    *.json, *.jsonl, *.sha256        the computed spectral results and the
+                                     result manifest that pins them
+    *.md                             the documentation that accompanies the
+                                     code, including NOTES.md
+
+Third-party material vendored inside the repository, if any, keeps its own
+licence and is not relicensed by this file.
+---------------------------------------------------------------------------
+
+NOTE ON SUBSTATIVE CLAIMS: this licence covers the software; it does not
+endorse any conclusion drawn from its output. The code computes rigorous
+eigenvalue brackets for the Guinand-Weil block matrix tau = W02 - WR - Wp by
+interval and ball arithmetic. Producing a certified spectrum of an operator is
+not a proof about the Riemann zeta function, and no such proof is asserted by
+this repository.
